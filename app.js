@@ -30,18 +30,18 @@ app.use((err, req, res, next) => {
   });
 });
 
-app.listen(PORT, () => console.log(`🚀 @ http://localhost:${PORT}`));
 // Connect to the MySQL server
-// connection.connect((err) => {
-//   if (err) {
-//     console.error('Error connecting to MySQL:', err);
-//     return;
-//   }
-//   console.log('Connected to MySQL server');
-// });
+connection.connect((err) => {
+  if (err) {
+    console.error('Error connecting to MySQL:', err);
+    return;
+  }
+  app.listen(PORT, () => console.log(`🚀 @ http://localhost:${PORT}`));
+  console.log('Connected to MySQL server');
+});
 
 // // Close the MySQL connection when the Node.js process exits
-// process.on('exit', () => {
-//   connection.end();
-//   console.log('Connection to MySQL closed');
-// });
+process.on('exit', () => {
+  connection.end();
+  console.log('Connection to MySQL closed');
+});
