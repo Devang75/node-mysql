@@ -1,5 +1,6 @@
 import express from 'express';
 import  {connection}  from '../config/db.js';
+import { upload } from '../config/multer.js';
 export const router = express.Router()
 
 router.get('/', async (req, res, next) => {
@@ -42,3 +43,11 @@ router.delete('/items/:id', (req, res) => {
   });
 });
 
+// Upload file API
+router.post('/upload', upload.single('file'), (req, res) => {
+  console.log(req);
+  connection.query('INSERT INTO images (imagespath) VALUES (?)',[req.file.path], (error, results) => {
+    if (error) throw error;
+    res.status(200).json({ message: 'File uploaded successfully', file: req.file });
+  })
+});
